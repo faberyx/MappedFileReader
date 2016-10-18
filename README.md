@@ -4,6 +4,8 @@
 A Simple WPF File Reader 
 
 - MVVM Structure with MVVM Light
-- MemoryMapped File Reader
+- Data Virtualization IList Viewer
+- Memory Mapped File Reader
+
 
 
