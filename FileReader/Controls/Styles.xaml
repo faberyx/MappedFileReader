@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           >
+
+    <!-- Converters -->
+ 
+
+    <!-- Body content datagrid cell vertical centering-->
+ 
+
+    <!-- Listview Grid  Text -->
+    <Style x:Key="ListTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+ 
+    <!--  Listview Grid Rows Selection -->
+    <Style x:Key="SimpleListBoxItem" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Height" Value="19" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Border.Background" Value="Transparent" />
+                <Setter Property="Border.BorderBrush" Value="DarkGray" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+ 
+  
+
+</ResourceDictionary>
