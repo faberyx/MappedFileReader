@@ -1,5 +1,7 @@
+using AlphaChiTech.Virtualization;
 using FileReader.Data;
 using FileReader.DataVirtualization;
+using FileReader.Virtualization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
@@ -13,6 +15,11 @@ namespace FileReader.ViewModel
     {
         #region Private Properties
         private AsyncVirtualizingCollection<string> logrows;
+
+        private VirtualizingObservableCollection<string> observablecollectiondata = null;
+        private VirtualizingCollection dataprovider = null;
+
+
         #endregion
 
         #region Public Properties
@@ -32,6 +39,20 @@ namespace FileReader.ViewModel
                 this.RaisePropertyChanged(() => this.LogRows);
             }
         }
+
+        public VirtualizingObservableCollection<string> ObservableCollectionData
+        {
+            get
+            {
+              
+                return observablecollectiondata;
+            }
+            set
+            {
+                this.observablecollectiondata = value;
+                this.RaisePropertyChanged(() => this.ObservableCollectionData);
+            }
+        }
         #endregion
 
         #region Constructor
@@ -46,22 +67,13 @@ namespace FileReader.ViewModel
         #endregion
 
         #region Grid Data Loader
-        private async void LoadGrid(string filename)
+        private  void LoadGrid(string filename)
         {
-            Messenger.Default.Send(new Model.Messages.UpdateStatusBar { Status = true });
-            Messenger.Default.Send(new Model.Messages.TimerControl { Start = true });
+      
+            ObservableCollectionData =
+                 new VirtualizingObservableCollection<string>(
+                     new PaginationManager<string>(new VirtualizingCollection(filename),pageSize: Constants.Pagination));
 
-            var loader = new FileLoader(filename);
-            int rows = await Task.Factory.StartNew<int>(() =>
-            {
-                return (int)loader.IndexFile();
-            });
-
-            Messenger.Default.Send(new Model.Messages.UpdateStatusBar { Status = false, RowCount = rows });
-            Messenger.Default.Send(new Model.Messages.TimerControl { Start = false });
-
-            var provider = new FileLoaderProvider(loader, rows);
-            this.LogRows = new AsyncVirtualizingCollection<string>(provider, Constants.Pagination, Constants.Pagetimeout);
         }
         #endregion
     }

@@ -6,7 +6,7 @@ namespace FileReader
     /// </summary>
     public  class Constants
     {
-        public static int Pagination { get { return 1000; } }
+        public static int Pagination { get { return 100; } }
         public static int Pagetimeout { get { return 2 * 1000; } }
     }
 }

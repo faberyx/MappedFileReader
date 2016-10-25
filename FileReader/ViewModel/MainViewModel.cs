@@ -1,9 +1,11 @@
+using AlphaChiTech.Virtualization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace FileReader.ViewModel
 {
@@ -29,6 +31,9 @@ namespace FileReader.ViewModel
         public MainViewModel()
         {
             DispatcherHelper.Initialize();
+
+         
+
             this.OpenFileCommand = new RelayCommand(OpenFile);
 
             this.CloseCommand = new RelayCommand(() => {

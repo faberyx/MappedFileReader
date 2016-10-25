@@ -45,7 +45,7 @@ namespace FileReader.Data
                 streamSize = 6553600;  
             
             // Number of rows counter
-            long rowcount = 0;
+            long rowcount = 1;
 
             // Add first page to array
             posix.Add(0);
@@ -122,29 +122,31 @@ namespace FileReader.Data
 
                 // Get the length of the rows to read
                 long length = posix.Count == 1 ? filesize : (s + 1) == posix.Count ? filesize - offset : posix[s + 1] - offset;
-                
+
                 // Access MMV data
                 using (var stream = file.CreateViewAccessor(offset, length, MemoryMappedFileAccess.Read))
                 {
+                    byte[] contentArray;
                     // Read from the MMF the bytes[] requested
                     if (this.encoding.EncodingName == "Unicode" && offset > 0)
                     {
                         // If unicode we need to add the BOM data at the beginning or GetString will not decode the byte array
-                        var contentArray = new byte[length + 2];
+                        contentArray = new byte[length + 2];
                         contentArray[0] = 0xff;
                         contentArray[1] = 0xfe;
-                        
+
                         // Read the data in the accessor
-                        stream.ReadArray<byte>(1, contentArray, 2, (int)length);
-                        return this.encoding.GetString(contentArray).Split('\n').ToList<string>();
+                        stream.ReadArray<byte>(1, contentArray, 2, (int)length - 1);
                     }
                     else
                     {
                         // Read the data in the accessor
-                        var contentArray = new byte[length];
-                        stream.ReadArray<byte>(0, contentArray, 0, (int)length);
-                        return this.encoding.GetString(contentArray).Split('\n').ToList<string>();
+                        contentArray = new byte[length];
+                        stream.ReadArray<byte>(0, contentArray, 0, (int)length - 1);
+
                     }
+                    return this.encoding.GetString(contentArray).Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList<string>();
+                    //return list;
                 }
             }
             catch (Exception ex)

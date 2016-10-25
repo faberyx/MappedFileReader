@@ -19,7 +19,7 @@
                   VirtualizingStackPanel.VirtualizationMode="Standard"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   ItemContainerStyle="{StaticResource SimpleListBoxItem  }"
-                  ItemsSource="{Binding LogRows}">
+                  ItemsSource="{Binding ObservableCollectionData}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=.,Mode=OneWay}"   />
